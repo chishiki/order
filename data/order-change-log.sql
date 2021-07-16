@@ -1,0 +1,2 @@
+-- when we make a change to the schema or add something to the database
+-- we record the SQL here with date and time added
