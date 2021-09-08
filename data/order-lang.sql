@@ -1177,4 +1177,7 @@ REPLACE INTO `perihelion_Lang` VALUES ('404audit','404 Audit',0,'404監査',0,@n
 ('youMustEnableJavaScript','You must enable JavaScript to use this site.',0,'JavaScriptを有効に設定してからご利用ください。',0,@now),
 ('yourFullName','Your full name:',0,'フルネーム：',0,@now),
 ('yourIP','Your IP Address',0,'あなたのIPアドレス',0,@now),
-('yourMessage','Your message',0,'メッセージ',0,@now);
+('yourMessage','Your message',0,'メッセージ',0,@now),
+('orderProductManagement','Products',0,'製品管理',0,@now),
+('orderCustomerManagement','Customers',0,'顧客管理',0,@now),
+('orderSalesOrderManagement','Sales Orders',0,'受注管理',0,@now);
