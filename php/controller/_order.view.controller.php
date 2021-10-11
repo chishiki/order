@@ -1,29 +1,47 @@
 <?php
 
-final class OrderViewController {
+final class OrderViewController implements ViewControllerInterface {
 
 	private $loc;
 	private $input;
 	private $modules;
 	private $errors;
-	private $orders;
+	private $messages;
 
-	public function __construct($loc = array(), $input = array(), $modules = array(), $errors = array(), $orders = array()) {
+	public function __construct($loc = array(), $input = array(), $modules = array(), $errors = array(), $messages = array()) {
 
 		$this->loc = $loc;
 		$this->input = $input;
 		$this->modules = $modules;
 		$this->errors = $errors;
-		$this->orders = $orders;
+		$this->messages = $messages;
 
 	}
 
 	public function getView() {
 
-		if ($this->loc[0] == 'order') {
+		$loc = $this->loc;
+		$input = $this->input;
+		$modules = $this->modules;
+		$errors = $this->errors;
+		$messages = $this->messages;
 
-			$view = new OrderView();
-			return $view->orderTest();
+		if ($loc[0] == 'order') {
+
+			switch ($loc[1]) {
+
+				case 'admin':
+					$v = new OrderAdminViewController($loc, $input, $modules, $errors, $messages);
+					break;
+
+				case 'test':
+					$v = new OrderTestViewController($loc, $input, $modules, $errors, $messages);
+					break;
+
+				default:
+					$v = new OrderMainViewController($loc, $input, $modules, $errors, $messages);
+
+			}
 
 		}
 

@@ -1,12 +1,12 @@
 <?php
 
-final class OrderController {
+final class OrderController implements StateControllerInterface {
 
 	private $loc;
 	private $input;
 	private $modules;
 	private $errors;
-	private $orders;
+	private $messages;
 
 	public function __construct($loc, $input, $modules) {
 
@@ -14,20 +14,26 @@ final class OrderController {
 		$this->input = $input;
 		$this->modules = $modules;
 		$this->errors = array();
-		$this->orders =  array();
+		$this->messages =  array();
 
 	}
 
 	public function setState() {
 
+		$loc = $this->loc;
 		$input = $this->input;
+		$modules = $this->modules;
 
 		if ($this->loc[0] == 'order') {
 
-			if (!Auth::isLoggedIn()) {
+			switch ($loc[1]) {
 
-				$loginURL = '/' . Lang::prefix() . 'login/';
-				header("Location: $loginURL");
+				case 'admin':
+					$controller = new OrderAdminController($loc,$input,$modules);
+					break;
+
+				default:
+					$controller = new OrderMainController($loc,$input,$modules);
 
 			}
 
@@ -36,7 +42,7 @@ final class OrderController {
 		if (isset($controller)) {
 			$controller->setState();
 			$this->errors = $controller->getErrors();
-			$this->orders = $controller->getOrders();
+			$this->messages = $controller->getMessages();
 		}
 
 	}
@@ -45,8 +51,8 @@ final class OrderController {
 		return $this->errors;
 	}
 
-	public function getOrders() {
-		return $this->orders;
+	public function getMessages() {
+		return $this->messages;
 	}
 
 }

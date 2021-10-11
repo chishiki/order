@@ -8,13 +8,20 @@ final class OrderPDF {
 
 	public function __construct($loc, $input) {
 
-		$doc = 'EXAMPLE PDF';
-		$fileObject = 'Order';
-		$fileObjectID = 0;
+		if ($loc[0] == 'pdf' && $loc[1] == 'order') {
 
-		$this->doc = $doc;
-		$this->fileObject = $fileObject;
-		$this->fileObjectID = $fileObjectID;
+			// /pdf/order/<orderID>/
+			if (is_numeric($loc[3])) {
+
+				$orderID = $loc[3];
+				$view = new OrderView($loc, $input);
+				$this->doc = $view->orderPrint($orderID);
+				$this->fileObject = 'Order';
+				$this->fileObjectID = $orderID;
+
+			}
+
+		}
 
 	}
 

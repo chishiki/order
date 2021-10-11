@@ -16,7 +16,7 @@ final class OrderAPI {
 
 	    	if ($this->loc[0] == 'api' && $this->loc[1] == 'order') {
 
-	    		$response = '{"api":"order"}';
+				$response = '{"api":"order"}';
 				return $response;
 
 			}
