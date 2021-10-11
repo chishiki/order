@@ -1,6 +1,8 @@
 
-window.onload = function() {
+var orderScript = function() {
 
-	console.log('satellite javascript has loaded');
+	console.log('order javascript has loaded');
 
 };
+
+window.addEventListener('load', orderScript, false);
