@@ -23,19 +23,30 @@ final class OrderAdminController implements StateControllerInterface {
 		$loc = $this->loc;
 		$input = $this->input;
 		
-		if ($loc[0] == 'order' && $loc[1] == 'sales-orders') {
+		if ($loc[0] == 'order' && $loc[1] == 'admin') {
 			
-			if (isset($this->input['form-name']) && $this->input['form-name'] == 'sales-order-search') {
-				$sosf = new OrderListArguments();
-				foreach ($this->input AS $key => $value) { if (isset($sosf->$key)) { $_SESSION['salesOrderListArguments'][$key] = $value; } }
+			if (isset($this->input['order-admin-search'])) {
+				$arg = new OrderListArguments();
+				foreach ($this->input AS $key => $value) {
+					if (property_exists($arg, $key)) { $_SESSION['order']['admin']['search'][$key] = $value; }
+				}
 			}
+
+			if (isset($this->input['order-admin-search-reset'])) {
+				$_SESSION['order']['admin']['search'] = array();
+				$arg = new OrderListArguments();
+				foreach ($arg AS $key => $value) {
+					if (!is_null($value)) { $_SESSION['order']['admin']['search'][$key] = $value; }
+				}
+			}
+
 			if ($loc[2] == 'create' && !empty($input)) { $this->createOrder($input); }
-			if ($loc[2] == 'update' && ctype_digit($loc[3]) && !empty($input)) { $this->updateOrder($loc[3], $input); }
-			if ($loc[2] == 'update' && ctype_digit($loc[3]) && $loc[4] == 'files') {
+			if ($loc[2] == 'update' && is_numeric($loc[3]) && !empty($input)) { $this->updateOrder($loc[3], $input); }
+			if ($loc[2] == 'update' && is_numeric($loc[3]) && $loc[4] == 'files') {
 				if (isset($_FILES['perihelionFiles'])) { $this->uploadFiles($loc[3], $_FILES['perihelionFiles']); }
-				if ($loc[5] == 'delete' && ctype_digit($loc[6])) { $this->deleteFiles($loc[3], $loc[6]); }
+				if ($loc[5] == 'delete' && is_numeric($loc[6])) { $this->deleteFiles($loc[3], $loc[6]); }
 			}
-			if ($loc[2] == 'delete' && ctype_digit($loc[3])) { $this->deleteOrder($loc[3]); }
+			if ($loc[2] == 'delete' && is_numeric($loc[3])) { $this->deleteOrder($loc[3]); }
 			
 		}
 		

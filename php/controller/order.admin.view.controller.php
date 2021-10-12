@@ -33,9 +33,16 @@ final class OrderAdminViewController implements ViewControllerInterface {
 
 			if ($this->loc[2] == 'confirm-delete' && is_numeric($this->loc[3])) { return $view->orderConfirmDelete($this->loc[3]); }
 
-			$sosf = new OrderListArguments();
-			if (isset($_SESSION['salesOrderListArguments'])) { foreach ($_SESSION['salesOrderListArguments'] AS $key => $value) { if (isset($sosf->$key)) { $sosf->$key = $value; } } }
-			return $view->orderSearchForm($sosf) . $view->orderList($sosf);
+			$arg = new OrderListArguments();
+			if (isset($_SESSION['order']['admin']['search'])) {
+				foreach ($_SESSION['order']['admin']['search'] AS $key => $value) {
+					if (property_exists($arg, $key)) {
+						$arg->$key = $value;
+					}
+				}
+			}
+
+			return $view->orderSearchForm($arg) . $view->orderList($arg);
 
 		}
 
